@@ -452,8 +452,10 @@ function getIndicesOfOddNumbers(numbers) {
  *    getHexRGBValues([ 0, 255, 16777215]) => [ '#000000', '#0000FF', '#FFFFFF' ]
  *    getHexRGBValues([]) => []
  */
-function getHexRGBValues(/* arr */) {
-  throw new Error('Not implemented');
+function getHexRGBValues(arr) {
+  return arr.map(
+    (i) => `#${String(i.toString(16)).toUpperCase().padStart(6, '0')}`
+  );
 }
 
 /**
@@ -470,8 +472,8 @@ function getHexRGBValues(/* arr */) {
  *   getMaxItems([ 10, 2, 7, 5, 3, -5 ], 3) => [ 10, 7, 5 ]
  *   getMaxItems([ 10, 10, 10, 10 ], 3) => [ 10, 10, 10 ]
  */
-function getMaxItems(/* arr, n */) {
-  throw new Error('Not implemented');
+function getMaxItems(arr, n) {
+  return arr.sort((a, b) => b - a).slice(0, n);
 }
 
 /**
@@ -486,8 +488,8 @@ function getMaxItems(/* arr, n */) {
  *    findCommonElements(['a', 'b', 'c'], ['b', 'c', 'd']) => [ 'b', 'c' ]
  *    findCommonElements([1, 2, 3], ['a', 'b', 'c']) => []
  */
-function findCommonElements(/* arr1, arr2 */) {
-  throw new Error('Not implemented');
+function findCommonElements(arr1, arr2) {
+  return arr1.filter((i) => arr2.indexOf(i) >= 0);
 }
 
 /**
@@ -501,8 +503,22 @@ function findCommonElements(/* arr1, arr2 */) {
  *    findLongestIncreasingSubsequence([3, 10, 2, 1, 20]) => 2
  *    findLongestIncreasingSubsequence([50, 3, 10, 7, 40, 80]) => 3
  */
-function findLongestIncreasingSubsequence(/* nums */) {
-  throw new Error('Not implemented');
+function findLongestIncreasingSubsequence(nums) {
+  const incrSubseq = [];
+  nums.reduce((a, i, ind) => {
+    if (ind > 0) {
+      if (i > nums[ind - 1]) {
+        if (ind === nums.length - 1) {
+          incrSubseq.push(a + 1);
+        }
+        return a + 1;
+      }
+      incrSubseq.push(a);
+      return 1;
+    }
+    return a + 1;
+  }, 0);
+  return Math.max(...incrSubseq);
 }
 
 /**
@@ -519,8 +535,14 @@ function findLongestIncreasingSubsequence(/* nums */) {
  *  propagateItemsByPositionIndex([ 'a', 'b', 'c', null ]) => [ 'a', 'b', 'b', 'c', 'c', 'c',  null, null, null, null ]
  *  propagateItemsByPositionIndex([ 1,2,3,4,5 ]) => [ 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5 ]
  */
-function propagateItemsByPositionIndex(/* arr */) {
-  throw new Error('Not implemented');
+function propagateItemsByPositionIndex(arr) {
+  const result = Array.from(arr, (i, ind) => {
+    const res = [];
+    res.length = ind + 1;
+    res.fill(i);
+    return res;
+  });
+  return result.flat(1);
 }
 
 /**
@@ -536,8 +558,14 @@ function propagateItemsByPositionIndex(/* arr */) {
  *    shiftArray(['a', 'b', 'c', 'd'], -1) => ['b', 'c', 'd', 'a']
  *    shiftArray([10, 20, 30, 40, 50], -3) => [40, 50, 10, 20, 30]
  */
-function shiftArray(/* arr, n */) {
-  throw new Error('Not implemented');
+function shiftArray(arr, n) {
+  const a = arr;
+  arr.map((_, ind) => {
+    if (n >= 0 && ind < n) a.unshift(a.pop());
+    else if (n < 0 && ind < -n) a.push(a.shift());
+    return 0;
+  });
+  return a;
 }
 
 /**
@@ -553,8 +581,20 @@ function shiftArray(/* arr, n */) {
  *   sortDigitNamesByNumericOrder([ 'nine','eight','nine','eight' ]) => [ 'eight','eight','nine','nine']
  *   sortDigitNamesByNumericOrder([ 'one','one','one','zero' ]) => [ 'zero','one','one','one' ]
  */
-function sortDigitNamesByNumericOrder(/* arr */) {
-  throw new Error('Not implemented');
+function sortDigitNamesByNumericOrder(arr) {
+  const strDigDir = [
+    'zero',
+    'one',
+    'two',
+    'three',
+    'four',
+    'five',
+    'six',
+    'seven',
+    'eight',
+    'nine',
+  ];
+  return arr.sort((a, b) => strDigDir.indexOf(a) - strDigDir.indexOf(b));
 }
 
 /**
@@ -576,8 +616,18 @@ function sortDigitNamesByNumericOrder(/* arr */) {
  *   swapHeadAndTail([]) => []
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  const a = arr;
+  const middle = Math.floor(arr.length / 2);
+  arr.map((_, ind) => {
+    if (ind < middle)
+      [a[ind], a[arr.length - middle + ind]] = [
+        a[arr.length - middle + ind],
+        a[ind],
+      ];
+    return 0;
+  });
+  return a;
 }
 
 module.exports = {
